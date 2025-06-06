@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VishanaExpress Booking</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 400px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #2a7a2a;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #1f5d1f;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📦 VishanaExpress Booking</h2>
+
+  <label for="customerName">Customer Name:</label>
+  <input type="text" id="customerName" placeholder="Your full name" required />
+
+  <label for="customerPhone">Your WhatsApp Number:</label>
+  <input type="tel" id="customerPhone" placeholder="e.g. 0123456789" required />
+
+  <label for="receiverName">Receiver Name:</label>
+  <input type="text" id="receiverName" placeholder="Receiver's name" required />
+
+  <label for="receiverPhone">Receiver WhatsApp Number:</label>
+  <input type="tel" id="receiverPhone" placeholder="e.g. 0176543210" required />
+
+  <label for="pickup">Pickup Address:</label>
+  <input type="text" id="pickup" placeholder="e.g. KL Sentral" required />
+
+  <label for="dropoff">Drop-off Address:</label>
+  <input type="text" id="dropoff" placeholder="e.g. Mid Valley" required />
+
+  <label for="vehicle">Vehicle:</label>
+  <select id="vehicle" disabled>
+    <option value="Car" selected>Car</option>
+  </select>
+
+  <label for="serviceType">Service Type:</label>
+  <select id="serviceType" required>
+    <option value="Economy">Economy – Not urgent</option>
+    <option value="Classic">Classic – Normal service</option>
+    <option value="Fast Track">Fast Track – Priority</option>
+  </select>
+
+  <label for="items">What Items:</label>
+  <input type="text" id="items" placeholder="e.g. Documents, Food, Parcel" required />
+
+  <label for="quantity">Quantity:</label>
+  <input type="number" id="quantity" min="1" placeholder="e.g. 1, 2, 3..." required />
+
+  <label for="remarks">Remarks:</label>
+  <textarea id="remarks" placeholder="e.g. Cash on Delivery, Fragile item, etc." rows="3"></textarea>
+
+  <button onclick="submitBooking()">Submit Booking to WhatsApp</button>
+
+  <script>
+    function sendConfirmationToCustomer(customerPhone, customerName) {
+      let formattedNumber = customerPhone.trim();
+      if (formattedNumber.startsWith("0")) {
+        formattedNumber = "6" + formattedNumber;
+      } else if (!formattedNumber.startsWith("60")) {
+        formattedNumber = "60" + formattedNumber;
+      }
+
+      const confirmationMessage = `Hi ${customerName},\n\n✅ Thank you for booking with VishanaExpress! We have received your order and will contact you shortly.`;
+
+      const whatsappURL = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(confirmationMessage)}`;
+      window.open(whatsappURL, "_blank");
+    }
+
+    function submitBooking() {
+      const customerName = document.getElementById("customerName").value.trim();
+      const customerPhone = document.getElementById("customerPhone").value.trim();
+      const receiverName = document.getElementById("receiverName").value.trim();
+      const receiverPhone = document.getElementById("receiverPhone").value.trim();
+      const pickup = document.getElementById("pickup").value.trim();
+      const dropoff = document.getElementById("dropoff").value.trim();
+      const serviceType = document.getElementById("serviceType").value;
+      const items = document.getElementById("items").value.trim();
+      const quantity = document.getElementById("quantity").value.trim();
+      const remarks = document.getElementById("remarks").value.trim();
+
+      if (!customerName || !customerPhone || !receiverName || !receiverPhone || !pickup || !dropoff || !serviceType || !items || !quantity) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      const message = 
+`Hi VishanaExpress 👋
+
+👤 Customer Name: ${customerName}
+📱 Customer WhatsApp: ${customerPhone}
+
+👤 Receiver Name: ${receiverName}
+📱 Receiver WhatsApp: ${receiverPhone}
+
+📦 Booking Details:
+Pickup Address: ${pickup}
+Drop-off Address: ${dropoff}
+Vehicle: Car
+Service Type: ${serviceType}
+Items: ${items}
+Quantity: ${quantity}
+Remarks: ${remarks || "-"}`;
+
+      const ownerWhatsApp = "601112621375";
+      const ownerURL = `https://wa.me/${ownerWhatsApp}?text=${encodeURIComponent(message)}`;
+      window.open(ownerURL, "_blank");
+
+      sendConfirmationToCustomer(customerPhone, customerName);
+    }
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
